@@ -22,19 +22,34 @@ app.get('/products/:productId', async (req, res) => {
 
   try {
     const response = await request(`${baseURL}&url=https://www.amazon.com/dp/${productId}`)
-    res.json(JSON.parse(response))
+    res.json(JSON.parse(response));
+
   } catch (error) {
     res.json(error)
   }
 })
 
-// Get Product REviews
+// Get Product Reviews
 app.get('/products/:productId/reviews', async (req, res) => {
   const { productId } = req.params
 
   try {
     const response = await request(`${baseURL}&url=https://www.amazon.com/product-reviews/${productId}`)
-    res.json(JSON.parse(response))
+    res.json(JSON.parse(response));
+
+  } catch (error) {
+    res.json(error)
+  }
+})
+
+// Get Product Offers
+app.get('/products/:productId/offers', async (req, res) => {
+  const { productId } = req.params
+
+  try {
+    const response = await request(`${baseURL}&url=https://www.amazon.com/gp/offer-listing/${productId}`)
+    res.json(JSON.parse(response));
+
   } catch (error) {
     res.json(error)
   }
