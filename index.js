@@ -2,6 +2,7 @@ import express from 'express'
 import request from 'request-promise'
 
 const app = express()
+app.use(express.json())
 
 const PORT = process.env.PORT || 4000
 
@@ -9,7 +10,6 @@ const apiKey = '9369326f7eeeda5489b984142cd45bf1'
 
 const baseURL = `http://api.scraperapi.com?api_key=${apiKey}&autoparse=true`
 
-app.use(express.json())
 
 app.get('/', (req, res) => {
   res.send('Welcome to Amazon Web Scrapper API')
@@ -22,7 +22,19 @@ app.get('/products/:productId', async (req, res) => {
 
   try {
     const response = await request(`${baseURL}&url=https://www.amazon.com/dp/${productId}`)
-    res.json(response)
+    res.json(JSON.parse(response))
+  } catch (error) {
+    res.json(error)
+  }
+})
+
+// Get Product REviews
+app.get('/products/:productId/reviews', async (req, res) => {
+  const { productId } = req.params
+
+  try {
+    const response = await request(`${baseURL}&url=https://www.amazon.com/product-reviews/${productId}`)
+    res.json(JSON.parse(response))
   } catch (error) {
     res.json(error)
   }
